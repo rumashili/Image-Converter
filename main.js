@@ -51,7 +51,7 @@ function processImage() {
 
   // 色削減
   const level = Number(slider.value);
-  reduceColor(imageData.data, level);
+  reduceColor(imageData.data, level, 1);
 
   // 反映
   ctx.putImageData(imageData, 0, 0);
