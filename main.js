@@ -1,4 +1,5 @@
 import { reduceColor } from "./function/colorReduction.js";
+import { resizeImageToFit } from "./function/utility.js";
 
 const fileInput = document.getElementById("fileInput");
 const runBtn = document.getElementById("runBtn");
@@ -28,13 +29,14 @@ runBtn.addEventListener("click", () => {
   img.src = url;
 
   img.onload = () => {
-    URL.revokeObjectURL(url); // メモリ解放
+    URL.revokeObjectURL(img.src);
 
     currentImg = img;
 
-    // サイズ設定
-    canvas.width = img.width;
-    canvas.height = img.height;
+    const { width, height } = resizeImageToFit(img, 480, 360);
+
+    canvas.width = width;
+    canvas.height = height;
 
     processImage();
   };
@@ -43,17 +45,14 @@ runBtn.addEventListener("click", () => {
 function processImage() {
   if (!currentImg) return;
 
-  // 描画
-  ctx.drawImage(currentImg, 0, 0);
+  // 🔥 リサイズ描画
+  ctx.drawImage(currentImg, 0, 0, canvas.width, canvas.height);
 
-  // ピクセル取得
   const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
-  // 色削減
   const level = Number(slider.value);
-  reduceColor(imageData.data, level, 1);
+  reduceColor(imageData.data, level);
 
-  // 反映
   ctx.putImageData(imageData, 0, 0);
 }
 

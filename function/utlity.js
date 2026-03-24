@@ -46,3 +46,14 @@ export function hsvToRgb(h, s, v) {
     Math.round((b + m) * 255)
   ];
 }
+
+
+
+export function resizeImageToFit(img, maxW, maxH) {
+  const ratio = Math.min(maxW / img.width, maxH / img.height);
+
+  const newW = Math.floor(img.width * ratio);
+  const newH = Math.floor(img.height * ratio);
+
+  return { width: newW, height: newH };
+}
