@@ -49,6 +49,8 @@ runBtn.addEventListener("click", () => {
 function processImage() {
   if (!currentImg) return;
 
+  ctx.imageSmoothingEnabled = false
+
   // 🔥 リサイズ描画
   ctx.drawImage(currentImg, 0, 0, canvas.width, canvas.height);
 
