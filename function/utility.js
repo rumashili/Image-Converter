@@ -49,6 +49,55 @@ export function hsvToRgb(h, s, v) {
 
 
 
+export function deltaE(c1, c2) {
+    // --- RGB(0-255) → sRGB(0-1) ---
+    function rgbToSRGB(c) {
+        return c.map(v => {
+            let s = v / 255;
+            return s <= 0.04045 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
+        });
+    }
+
+    // --- sRGB → XYZ ---
+    function rgbToXYZ(rgb) {
+        const [r, g, b] = rgb;
+        const X = r*0.4124 + g*0.3576 + b*0.1805;
+        const Y = r*0.2126 + g*0.7152 + b*0.0722;
+        const Z = r*0.0193 + g*0.1192 + b*0.9505;
+        return [X, Y, Z];
+    }
+
+    // --- XYZ → Lab ---
+    function xyzToLab(xyz) {
+        const [X, Y, Z] = xyz;
+        const Xn = 0.95047, Yn = 1.00000, Zn = 1.08883; // D65白色点
+        function f(t) {
+            return t > 0.008856 ? Math.cbrt(t) : 7.787 * t + 16/116;
+        }
+        const fx = f(X / Xn);
+        const fy = f(Y / Yn);
+        const fz = f(Z / Zn);
+        const L = 116*fy - 16;
+        const a = 500 * (fx - fy);
+        const b = 200 * (fy - fz);
+        return [L, a, b];
+    }
+
+    const lab1 = xyzToLab(rgbToXYZ(rgbToSRGB(c1)));
+    const lab2 = xyzToLab(rgbToXYZ(rgbToSRGB(c2)));
+
+    // --- ΔE76 ---
+    const delta = Math.sqrt(
+        Math.pow(lab1[0]-lab2[0],2) +
+        Math.pow(lab1[1]-lab2[1],2) +
+        Math.pow(lab1[2]-lab2[2],2)
+    );
+
+    return delta;
+}
+
+
+
 export function resizeImageToFit(img, maxW, maxH) {
   const ratio = Math.min(maxW / img.width, maxH / img.height);
 
