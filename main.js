@@ -57,7 +57,7 @@ function processImage() {
   const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
   const level = Number(slider.value);
-  reduceColor(imageData.data, level);
+  reduceColor(imageData.data, level, 1);
 
   ctx.putImageData(imageData, 0, 0);
 }
