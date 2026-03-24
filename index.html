@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+	<html lang="ja">
+		<head>
+		  <meta charset="UTF-8">
+		  <title>Image-Converter</title>
+		  <style>
+		    body { font-family: sans-serif; }
+		    canvas { border: 1px solid #ccc; margin-top: 10px; }
+    		textarea { width: 100%; height: 150px; margin-top: 10px; }
+		  </style>
+		</head>
+		<body>
+
+		<h2>画像変換ツール</h2>
+
+		<!-- ① 画像入力 -->
+		<input type="file" id="fileInput" accept="image/*">
+
+		<!-- ② パラメータ -->
+		<div>
+		  <label>しきい値（0-255）:</label>
+		  <input type="range" id="threshold" min="0" max="255" value="128">
+		  <span id="thresholdValue">128</span>
+		</div>
+
+		<!-- ③ 実行 -->
+		<button id="runBtn">変換する</button>
+
+		<!-- ④ プレビュー -->
+		<canvas id="canvas"></canvas>
+
+		<!-- ⑤ 出力 -->
+		<textarea id="output" placeholder="ここに結果が出る"></textarea>
+
+		<script type="module" src="main.js"></script>
+	</body>
+</html>
