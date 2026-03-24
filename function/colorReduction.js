@@ -1,4 +1,4 @@
-import { rgbToHsv, hsvToRgb } from "./utlity.js";
+import { rgbToHsv, hsvToRgb } from "./utility.js";
 
 export function reduceColor(data, level, mode = 1) {
   if (level === 0) return data;
