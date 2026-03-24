@@ -29,16 +29,20 @@ runBtn.addEventListener("click", () => {
   img.src = url;
 
   img.onload = () => {
-    URL.revokeObjectURL(img.src);
+    try {
+      URL.revokeObjectURL(img.src);
 
-    currentImg = img;
+      currentImg = img;
 
-    const { width, height } = resizeImageToFit(img, 480, 360);
+      const { width, height } = resizeImageToFit(img, 480, 360);
 
-    canvas.width = width;
-    canvas.height = height;
+      canvas.width = width;
+      canvas.height = height;
 
-    processImage();
+      processImage();
+    } catch (e) {
+      alert(e)
+    }
   };
 });
 
